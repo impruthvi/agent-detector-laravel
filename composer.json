@@ -1,0 +1,57 @@
+{
+    "name": "impruthvi/agent-detector-laravel",
+    "description": "Laravel companion for agent-detector: CSRF bypass, agent log channel, and session headers for AI coding agents.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["laravel", "ai", "agent", "claude", "cursor", "codex", "detection"],
+    "homepage": "https://github.com/impruthvi/agent-detector-laravel",
+    "authors": [
+        {
+            "name": "Pruthvisinh Rajput",
+            "email": "pruthvirajput97@gmail.com",
+            "homepage": "https://www.impruthvi.me",
+            "role": "Author"
+        }
+    ],
+    "require": {
+        "php": "^8.2|^8.5",
+        "shipfastlabs/agent-detector": "^1.1",
+        "laravel/framework": "^11.0|^12.0|^13.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0|^10.0",
+        "pestphp/pest": "^3.0|^4.0",
+        "laravel/pint": "^1.0",
+        "larastan/larastan": "^2.0|^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "AgentDetector\\Laravel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AgentDetector\\Laravel\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint",
+        "analyse": "vendor/bin/phpstan analyse"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AgentDetector\\Laravel\\AgentDetectorServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

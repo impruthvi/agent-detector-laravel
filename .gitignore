@@ -1,0 +1,10 @@
+vendor/
+composer.lock
+.phpunit.result.cache
+.phpunit.cache
+.php-cs-fixer.cache
+phpstan-result-cache.php
+coverage/
+.DS_Store
+.agents/
+.claude/
