@@ -8,7 +8,7 @@ it('adds X-Agent-Session header when agent detected', function () {
     putenv('CLAUDECODE=1');
 
     $middleware = $this->app->make(DetectedAgentMiddleware::class);
-    $request    = Request::create('/test', 'GET');
+    $request = Request::create('/test', 'GET');
 
     $response = $middleware->handle($request, fn () => new Response('ok'));
 
@@ -18,7 +18,7 @@ it('adds X-Agent-Session header when agent detected', function () {
 
 it('does not add X-Agent-Session header when no agent', function () {
     $middleware = $this->app->make(DetectedAgentMiddleware::class);
-    $request    = Request::create('/test', 'GET');
+    $request = Request::create('/test', 'GET');
 
     $response = $middleware->handle($request, fn () => new Response('ok'));
 
@@ -26,5 +26,5 @@ it('does not add X-Agent-Session header when no agent', function () {
 });
 
 it('resolves via constructor injection from container', function () {
-    expect(fn () => $this->app->make(DetectedAgentMiddleware::class))->not->toThrow(\Throwable::class);
+    expect(fn () => $this->app->make(DetectedAgentMiddleware::class))->not->toThrow(Throwable::class);
 });

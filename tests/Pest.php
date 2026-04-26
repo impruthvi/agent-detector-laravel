@@ -1,3 +1,5 @@
 <?php
 
-uses(AgentDetector\Laravel\Tests\TestCase::class)->in(__DIR__);
+use AgentDetector\Laravel\Tests\TestCase;
+
+uses(TestCase::class)->in(__DIR__);

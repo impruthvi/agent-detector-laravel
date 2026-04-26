@@ -8,8 +8,8 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
 use Monolog\Level;
+use Monolog\Logger;
 
 class AgentDetectorServiceProvider extends ServiceProvider
 {
@@ -21,14 +21,16 @@ class AgentDetectorServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/agent-detector.php' => config_path('agent-detector.php'),
+            __DIR__.'/../config/agent-detector.php' => config_path('agent-detector.php'),
         ]);
 
         if (config('agent-detector.disable_csrf', true)) {
             if ($this->app->bound(VerifyCsrfToken::class)) {
                 $this->app->extend(VerifyCsrfToken::class, function ($original, $app) {
                     $ctx = $app->make(AgentContext::class);
-                    return new class($original, $ctx) {
+
+                    return new class($original, $ctx)
+                    {
                         public function __construct(
                             private VerifyCsrfToken $wrapped,
                             private AgentContext $ctx,
@@ -45,8 +47,8 @@ class AgentDetectorServiceProvider extends ServiceProvider
             } else {
                 Log::warning(
                     'agent-detector: CSRF bypass unavailable via extend() '
-                    . '(VerifyCsrfToken not container-bound). '
-                    . 'Use AgentAwareCsrfMiddleware in bootstrap/app.php instead.'
+                    .'(VerifyCsrfToken not container-bound). '
+                    .'Use AgentAwareCsrfMiddleware in bootstrap/app.php instead.'
                 );
             }
         }
@@ -64,14 +66,15 @@ class AgentDetectorServiceProvider extends ServiceProvider
             ));
             $logger = new Logger('agent');
             $logger->pushHandler($stream);
+
             return $logger;
         });
 
         if ($channel = config('agent-detector.log_channel')) {
             config(["logging.channels.{$channel}" => [
                 'driver' => 'agent-detector',
-                'path'   => storage_path("logs/{$channel}.log"),
-                'level'  => 'debug',
+                'path' => storage_path("logs/{$channel}.log"),
+                'level' => 'debug',
             ]]);
         }
     }

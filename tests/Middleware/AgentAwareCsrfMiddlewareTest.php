@@ -13,6 +13,7 @@ function makeRequestWithSession(): Request
     $session = app('session')->driver('array');
     $session->start();
     $request->setLaravelSession($session);
+
     return $request;
 }
 
@@ -28,11 +29,8 @@ it('bypasses CSRF for agent requests', function () {
 
 it('enforces CSRF for non-agent requests', function () {
     // Override runningUnitTests() so VerifyCsrfToken actually enforces the token check
-    $middleware = new class(
-        app(AgentContext::class),
-        app(),
-        app(Encrypter::class)
-    ) extends AgentAwareCsrfMiddleware {
+    $middleware = new class(app(AgentContext::class), app(), app(Encrypter::class)) extends AgentAwareCsrfMiddleware
+    {
         protected function runningUnitTests(): bool
         {
             return false;
@@ -44,11 +42,8 @@ it('enforces CSRF for non-agent requests', function () {
 });
 
 it('allows subclassing to add custom $except array', function () {
-    $subclass = new class(
-        app(AgentContext::class),
-        app(),
-        app(Encrypter::class)
-    ) extends AgentAwareCsrfMiddleware {
+    $subclass = new class(app(AgentContext::class), app(), app(Encrypter::class)) extends AgentAwareCsrfMiddleware
+    {
         protected $except = ['/test'];
     };
 

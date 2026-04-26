@@ -2,6 +2,7 @@
 
 use AgentDetector\Laravel\AgentContext;
 use AgentDetector\Laravel\AgentDetectorServiceProvider;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Log;
 
 it('binds AgentContext as singleton', function () {
@@ -21,14 +22,16 @@ it('emits Log::warning when VerifyCsrfToken not container-bound and disable_csrf
 
     Log::shouldReceive('warning')
         ->once()
-        ->with(\Mockery::pattern('/CSRF bypass unavailable/'))
-        ->andReturnUsing(function () use (&$warned) { $warned = true; });
+        ->with(Mockery::pattern('/CSRF bypass unavailable/'))
+        ->andReturnUsing(function () use (&$warned) {
+            $warned = true;
+        });
 
     Log::shouldReceive('extend')->andReturn(null);
 
     // Unbind VerifyCsrfToken so extend() path is skipped
     $app = $this->app;
-    unset($app[\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
+    unset($app[VerifyCsrfToken::class]);
 
     $provider = new AgentDetectorServiceProvider($app);
     $provider->boot();
